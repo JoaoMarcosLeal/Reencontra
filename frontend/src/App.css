@@ -75,3 +75,84 @@ button,
   cursor: pointer;
   text-align: center;
 }
+
+.navbar {
+  height: 72px;
+  padding: 0 48px;
+  background: #4b22d4;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar a {
+  color: white;
+  margin-left: 24px;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters {
+  margin: 32px 0;
+  display: flex;
+  gap: 12px;
+}
+
+.filters button {
+  margin: 0;
+  background: white;
+  color: #4b22d4;
+  border: 1px solid #ddd7f3;
+}
+
+.filters input {
+  flex: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.item-card {
+  background: white;
+  border: 1px solid #e5defa;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(75, 34, 212, 0.08);
+}
+
+.item-image {
+  font-size: 52px;
+  margin-bottom: 20px;
+}
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.lost {
+  background: #ffe3ea;
+  color: #d6335c;
+}
+
+.found {
+  background: #d9f8e8;
+  color: #16834f;
+}
+
