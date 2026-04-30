@@ -1,39 +1,68 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import api from "../services/api";
 
 function Login() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  function handleLogin(e) {
-    e.preventDefault();
-    navigate("/dashboard");
-  }
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  return (
-    <main className="auth-page">
-      <section className="auth-illustration">
-        <h1>REENCONTRA - UFLA</h1>
-        <p>Conectando pessoas a seus objetos perdidos no campus.</p>
-      </section>
+    async function handleLogin(e) {
+        e.preventDefault();
 
-      <section className="auth-card">
-        <h2>Entrar na sua conta</h2>
+        try {
+            const response = await api.post("/users/login", null, {
+                params: {
+                    email,
+                    password,
+                },
+            });
 
-        <form onSubmit={handleLogin}>
-          <label>E-mail</label>
-          <input type="email" placeholder="seu@email.com" required />
+            localStorage.setItem("token", response.data.token);
+            navigate("/dashboard");
+        } catch (error) {
+            alert("Erro ao fazer login");
+            console.log(error);
+        }
+    }
 
-          <label>Senha</label>
-          <input type="password" placeholder="Sua senha" required />
+    return (
+        <main className="auth-page">
+            <section className="auth-illustration">
+                <h1>REENCONTRA - UFLA</h1>
+                <p>Conectando pessoas a seus objetos perdidos no campus.</p>
+            </section>
 
-          <button type="submit">Entrar</button>
-        </form>
+            <section className="auth-card">
+                <h2>Entrar na sua conta</h2>
 
-        <p>
-          Não tem uma conta? <Link to="/cadastro">Cadastre-se</Link>
-        </p>
-      </section>
-    </main>
-  );
+                <form onSubmit={handleLogin}>
+                    <label>E-mail</label>
+                    <input
+                        type="email"
+                        placeholder="seu@email.com"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+
+                    <label>Senha</label>
+                    <input 
+                        type="password" 
+                        placeholder="Sua senha" 
+                        onChange={(e) => setPassword(e.target.value)}
+                        required 
+                    />
+
+                    <button type="submit">Entrar</button>
+                </form>
+
+                <p>
+                    Não tem uma conta? <Link to="/cadastro">Cadastre-se</Link>
+                </p>
+            </section>
+        </main>
+    );
 }
 
 export default Login;

@@ -1,43 +1,75 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import api from "../services/api";
 
 function Register() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  function handleRegister(e) {
-    e.preventDefault();
-    alert("Conta criada com sucesso!");
-    navigate("/");
-  }
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  return (
-    <main className="auth-page">
-      <section className="auth-illustration">
-        <h1>REENCONTRA - UFLA</h1>
-        <p>Crie sua conta para cadastrar e encontrar objetos.</p>
-      </section>
+    async function handleRegister(e) {
+        e.preventDefault();
+        
+        try {
+            await api.post("/users/register", null, {
+                params: {
+                    email,
+                    password,
+                },
+            });
 
-      <section className="auth-card">
-        <h2>Criar conta</h2>
+            alert("Conta criada com sucesso!");
+            navigate("/");
+        } catch (error) {
+            alert("Erro ao cadastrar usuário");
+            console.log(error);
+        }
+    }
 
-        <form onSubmit={handleRegister}>
-          <label>Nome completo</label>
-          <input type="text" placeholder="Seu nome" required />
+    return (
+        <main className="auth-page">
+            <section className="auth-illustration">
+                <h1>REENCONTRA - UFLA</h1>
+                <p>Crie sua conta para cadastrar e encontrar objetos.</p>
+            </section>
 
-          <label>E-mail</label>
-          <input type="email" placeholder="seu@email.com" required />
+            <section className="auth-card">
+                <h2>Criar conta</h2>
 
-          <label>Senha</label>
-          <input type="password" placeholder="Mínimo 6 caracteres" required />
+                <form onSubmit={handleRegister}>
+                    <label>Nome completo</label>
+                    <input type="text" 
+                    placeholder="Seu nome" 
+                    onChange={(e) => setNome(e.target.value)}
+                    required />
 
-          <button type="submit">Cadastrar</button>
-        </form>
+                    <label>E-mail</label>
+                    <input
+                        type="email"
+                        placeholder="seu@email.com"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
 
-        <p>
-          Já tem uma conta? <Link to="/">Entrar</Link>
-        </p>
-      </section>
-    </main>
-  );
+                    <label>Senha</label>
+                    <input 
+                        type="password" 
+                        placeholder="Sua senha" 
+                        onChange={(e) => setPassword(e.target.value)}
+                        required 
+                    />
+
+                    <button type="submit">Cadastrar</button>
+                </form>
+
+                <p>
+                    Já tem uma conta? <Link to="/">Entrar</Link>
+                </p>
+            </section>
+        </main>
+    );
 }
 
 export default Register;
