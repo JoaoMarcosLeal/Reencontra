@@ -5,3 +5,7 @@ python-jose
 passlib==1.7.4
 bcrypt==3.2.2
 pydantic
+pytest==9.0.3
+pytest
+httpx
+coverage
