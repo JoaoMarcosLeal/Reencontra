@@ -1,36 +1,23 @@
 import Navbar from "../components/Navbar";
 import ItemCard from "../components/ItemCard";
+import api from "../services/api";
+import { useState, useEffect } from "react";
 
 function Dashboard() {
-  const items = [
-    {
-      id: 1,
-      name: "Fone de ouvido JBL",
-      type: "Perdido",
-      location: "Próximo ao DAE",
-      date: "12/11/2024",
-      category: "Eletrônicos",
-      icon: "🎧",
-    },
-    {
-      id: 2,
-      name: "Carteira de couro",
-      type: "Encontrado",
-      location: "Biblioteca Central",
-      date: "10/11/2024",
-      category: "Acessórios",
-      icon: "👛",
-    },
-    {
-      id: 3,
-      name: "Garrafa de água",
-      type: "Perdido",
-      location: "Área de convivência",
-      date: "09/11/2024",
-      category: "Outros",
-      icon: "💧",
-    },
-  ];
+  useEffect(() => {
+    async function  carregarItens() {
+      try {
+        const response = await api.get("/items/");
+        setItems(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    carregarItens();
+  }, []);
+
+  const [items, setItems] = useState([]);
 
   return (
     <>
