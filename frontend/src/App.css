@@ -170,11 +170,72 @@ button,
   border-radius: 18px;
   padding: 22px;
   box-shadow: 0 8px 24px rgba(75, 34, 212, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.item-image {
-  font-size: 52px;
-  margin-bottom: 20px;
+.item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(75, 34, 212, 0.14);
+}
+
+.item-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.item-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: #f0ebff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.item-card h3 {
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.item-description {
+  color: #5f5a72;
+  line-height: 1.5;
+  min-height: 48px;
+}
+
+.item-info {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #4b435f;
+}
+
+.badge {
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.lost {
+  background: #ffe3ea;
+  color: #d6335c;
+}
+
+.found {
+  background: #d9f8e8;
+  color: #16834f;
+}
+
+.item-info p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .badge {
