@@ -8,14 +8,28 @@ function Dashboard() {
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState("todos");
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   useEffect(() => {
     async function carregarItens() {
       try {
+        setLoading(true);
+
+        await delay (1000);
+        
         const response = await api.get("/items/");
         setItems(response.data);
+        setError("");
       } catch (error) {
         console.log(error);
+        setError("Erro ao carregar os itens.");
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -68,15 +82,26 @@ function Dashboard() {
           />
         </div>
 
-        <section className="grid">
-          {filteredItems.length > 0 ? (
-            filteredItems.map((item) => (
-              <ItemCard key={item.id} item={item} />
-            ))
-          ) : (
-            <p>Nenhum item encontrado.</p>
-          )}
-        </section>
+        {loading && 
+        <div className="loading-container">
+          <div className="spineer"></div>
+          <p>Carregando itens...</p>
+        </div>
+        }
+
+        {error && <p className="error-message">{error}</p>}
+
+        {!loading && !error && (
+          <section className="grid">
+            {filteredItems.length > 0 ? (
+              filteredItems.map((item) => (
+                <ItemCard key={item.id} item={item} />
+              ))
+            ) : (
+              <p>Nenhum item encontrado.</p>
+            )}
+          </section>
+        )}
       </main>
     </>
   );
