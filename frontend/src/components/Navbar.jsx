@@ -5,6 +5,7 @@ function Navbar() {
 
   function handleLogout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
     navigate("/");
   }
 
