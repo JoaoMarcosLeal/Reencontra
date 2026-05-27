@@ -7,9 +7,11 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     async function handleLogin(e) {
         e.preventDefault();
+        setErrorMessage("");
 
         try {
             const response = await api.post("/users/login", null, {
@@ -23,7 +25,7 @@ function Login() {
             localStorage.setItem("userEmail", email);
             navigate("/dashboard");
         } catch (error) {
-            alert("Erro ao fazer login");
+            setErrorMessage("E-mail ou Senha inválidos.");
             console.log(error);
         }
     }
@@ -54,6 +56,8 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         required 
                     />
+
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
 
                     <button type="submit">Entrar</button>
                 </form>

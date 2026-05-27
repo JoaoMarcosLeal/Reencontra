@@ -76,6 +76,12 @@ button,
   text-align: center;
 }
 
+.error-message {
+  color: #d6335c;
+  font-weight: 600;
+  font-size: 14px;
+}
+
 .navbar {
   height: 72px;
   padding: 0 48px;
