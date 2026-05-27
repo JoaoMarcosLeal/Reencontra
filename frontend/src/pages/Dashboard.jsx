@@ -2,10 +2,14 @@ import Navbar from "../components/Navbar";
 import ItemCard from "../components/ItemCard";
 import api from "../services/api";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
+  const [items, setItems] = useState([]);
+  const [filter, setFilter] = useState("todos");
+
   useEffect(() => {
-    async function  carregarItens() {
+    async function carregarItens() {
       try {
         const response = await api.get("/items/");
         setItems(response.data);
@@ -17,7 +21,17 @@ function Dashboard() {
     carregarItens();
   }, []);
 
-  const [items, setItems] = useState([]);
+  const filteredItems = items.filter((item) => {
+    if (filter === "perdidos") {
+      return item.is_found === false;
+    }
+
+    if (filter === "encontrados") {
+      return item.is_found === true;
+    }
+
+    return true;
+  });
 
   return (
     <>
@@ -30,20 +44,20 @@ function Dashboard() {
             <p>Veja os itens cadastrados pela comunidade.</p>
           </div>
 
-          <a className="primary-link" href="/novo-item">
+          <Link className="primary-link" to="/novo-item">
             + Novo item
-          </a>
+          </Link>
         </div>
 
         <div className="filters">
-          <button>Todos</button>
-          <button>Perdidos</button>
-          <button>Encontrados</button>
+          <button onClick={() => setFilter("todos")}>Todos</button>
+          <button onClick={() => setFilter("perdidos")}>Perdidos</button>
+          <button onClick={() => setFilter("encontrados")}>Encontrados</button>
           <input placeholder="Buscar itens..." />
         </div>
 
         <section className="grid">
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <ItemCard key={item.id} item={item} />
           ))}
         </section>
