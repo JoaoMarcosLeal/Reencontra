@@ -12,8 +12,16 @@ function CreateItem() {
     const [location, setLocation] = useState("");
     const [isFound, setIsFound] = useState(false);
 
+    const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
     async function handleSubmit(e) {
         e.preventDefault();
+
+        setLoading(true);
+        setSuccessMessage("");
+        setErrorMessage("");
 
         try {
             await api.post("/items/", null, {
@@ -27,11 +35,16 @@ function CreateItem() {
                 },
             });
 
-            alert("Item cadastrado com sucesso!");
-            navigate("/dashboard");
+            setSuccessMessage("Item cadastrado com sucesso!");
+
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 1000);
         } catch (error) {
             console.error(error);
-            alert("Erro ao cadastrar item");
+            setErrorMessage("Erro ao cadastrar item. Verifique os dados.");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -92,8 +105,11 @@ function CreateItem() {
                         <option value="true">Encontrado</option>
                     </select>
 
-                    <button type="submit">
-                        Cadastrar Item
+                    {successMessage && <p className="success-message">{successMessage}</p>}
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+                    <button type="submit" disabled={loading}>
+                        {loading? "Cadastrando...": "Cadastrar Item"}
                     </button>
                 </form>
             </main>

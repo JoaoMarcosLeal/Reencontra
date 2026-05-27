@@ -82,6 +82,17 @@ button,
   font-size: 14px;
 }
 
+.success-message {
+  color: #16834f;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .navbar {
   height: 72px;
   padding: 0 48px;
