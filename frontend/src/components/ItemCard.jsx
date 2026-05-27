@@ -4,14 +4,14 @@ function ItemCard({ item }) {
       <div className="item-image">{item.icon}</div>
 
       <div>
-        <span className={item.type === "Perdido" ? "badge lost" : "badge found"}>
-          {item.type}
+        <span className={item.is_found == false ? "badge lost" : "badge found"}>
+          {item.is_found == false ? "PERDIDO" : "ENCONTRADO"}
         </span>
 
-        <h3>{item.name}</h3>
+        <h3>{item.title}</h3>
         <p>{item.location}</p>
-        <p>{item.date}</p>
-        <small>{item.category}</small>
+        <p>{item.category}</p>
+        <small>{item.description}</small>
       </div>
     </article>
   );

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 function Dashboard() {
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState("todos");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function carregarItens() {
@@ -22,15 +23,22 @@ function Dashboard() {
   }, []);
 
   const filteredItems = items.filter((item) => {
-    if (filter === "perdidos") {
-      return item.is_found === false;
-    }
+    const matchesFilter =
+      filter === "todos"
+        ? true
+        : filter === "perdidos"
+          ? item.is_found === false
+          : item.is_found === true;
 
-    if (filter === "encontrados") {
-      return item.is_found === true;
-    }
+    const searchText = search.toLowerCase();
 
-    return true;
+    const matchesSearch =
+      item.title?.toLowerCase().includes(searchText) ||
+      item.description?.toLowerCase().includes(searchText) ||
+      item.category?.toLowerCase().includes(searchText) ||
+      item.location?.toLowerCase().includes(searchText);
+
+    return matchesFilter && matchesSearch;
   });
 
   return (
@@ -53,13 +61,21 @@ function Dashboard() {
           <button onClick={() => setFilter("todos")}>Todos</button>
           <button onClick={() => setFilter("perdidos")}>Perdidos</button>
           <button onClick={() => setFilter("encontrados")}>Encontrados</button>
-          <input placeholder="Buscar itens..." />
+          <input
+            placeholder="Buscar itens..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
         <section className="grid">
-          {filteredItems.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item) => (
+              <ItemCard key={item.id} item={item} />
+            ))
+          ) : (
+            <p>Nenhum item encontrado.</p>
+          )}
         </section>
       </main>
     </>
