@@ -6,8 +6,9 @@ COPY --chown=root:root --chmod=755 package*.json ./
 
 RUN npm install
 
-COPY --chown=root:root --chmod=755 src/ ./src/
-COPY --chown=root:root --chmod=755 public/ ./public/
+COPY --chown=root:root --chmod=755 . .
+
+#USER node
 
 EXPOSE 3000
 
