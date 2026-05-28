@@ -1,21 +1,48 @@
+from difflib import SequenceMatcher
 from ..models import Item
 
+def similarity(a: str, b: str):
+
+    return SequenceMatcher(
+        None,
+        a.lower(),
+        b.lower()
+    ).ratio()
+
+
 def run_match(new_item, db):
-    if new_item.is_found:
-        candidates = db.query(Item).filter(Item.is_found == False).all()
-    else:
-        candidates = db.query(Item).filter(Item.is_found == True).all()
+
+    items = db.query(Item).filter(
+        Item.is_found != new_item.is_found
+    ).all()
 
     matches = []
 
-    for item in candidates:
-        if (
-            item.category == new_item.category and
-            new_item.description.lower() in item.description.lower()
-        ):
-            matches.append(item)
+    for item in items:
 
-    if matches:
-        print("MATCH ENCONTRADO:")
-        for m in matches:
-            print(f"- Item {m.id} pode corresponder com {new_item.id}")
+        if item.category != new_item.category:
+            continue
+
+        description_similarity = similarity(
+            item.description,
+            new_item.description
+        )
+
+        title_similarity = similarity(
+            item.title,
+            new_item.title
+        )
+
+        final_score = (
+            description_similarity +
+            title_similarity
+        ) / 2
+
+        if final_score >= 0.7:
+
+            matches.append({
+                "item_id": item.id,
+                "score": round(final_score, 2)
+            })
+
+    return matches

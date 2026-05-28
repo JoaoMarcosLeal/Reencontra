@@ -4,7 +4,8 @@ sqlalchemy
 python-jose
 passlib[bcrypt]
 bcrypt==4.0.1
+email-validator
 pydantic
-pytest==9.0.3
+pytest
 httpx
-coverage
+python-multipart
