@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# Reencontra
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend web do sistema de gerenciamento de objetos perdidos e encontrados no campus da UFLA.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Objetivo
 
-### `npm start`
+O sistema Reencontra tem como objetivo centralizar informações sobre objetos perdidos e encontrados dentro da UFLA, facilitando a comunicação entre usuários e aumentando as chances de recuperação dos itens.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Integrantes
 
-### `npm test`
+- Guilherme Alexandre Cunha Silva
+- Veronica Rodrigues da Silva França
+- João Marcos Leal De Oliveira Lopes Ferreira
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Tecnologias Utilizadas
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React.js
+- React Router DOM
+- Axios
+- CSS
+- Lucide React
+- Git/GitHub
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Funcionalidades
 
-### `npm run eject`
+### Sprint 1
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Cadastro de usuários
+- Login integrado com backend
+- Dashboard inicial
+- Navegação entre páginas
+- Integração inicial com API FastAPI
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Sprint 2
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Dashboard consumindo API real
+- Cadastro de itens perdidos/encontrados
+- Busca de itens
+- Filtros por tipo de item
+- Rotas protegidas com autenticação
+- Logout de usuário
+- Feedback visual de carregamento e erros
+- Melhorias visuais nos cards e formulários
+- Interface responsiva e moderna
+- Integração completa do fluxo frontend/backend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Como executar o projeto
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 1. Clonar o repositório
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+git clone https://github.com/JoaoMarcosLeal/Reencontra.git
+```
 
-### Code Splitting
+### 2. Entrar na pasta do frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+cd frontend
+```
 
-### Analyzing the Bundle Size
+### 3. Instalar dependências
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm install
+```
 
-### Making a Progressive Web App
+### 4. Executar o projeto
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+npm start
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Acesso
 
-### Deployment
+O frontend ficará disponível em:
+```
+http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Integração com Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+O frontend se comunica com a API desenvolvida em FastAPI para:
+
+- Cadastro de usuários
+- Login com JWT
+- Cadastro de itens
+- Listagem de itens
+
+---
+
+## Telas Implementadas
+
+- Tela de Login
+- Tela de Cadastro
+- Dashboard
+- Cadastro de Itens
+
+---
+
+## Observação
+
+Projeto acadêmico desenvolvido para fins educacionais.

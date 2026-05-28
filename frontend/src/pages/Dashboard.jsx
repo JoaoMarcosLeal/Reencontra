@@ -1,36 +1,59 @@
 import Navbar from "../components/Navbar";
 import ItemCard from "../components/ItemCard";
+import api from "../services/api";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
-  const items = [
-    {
-      id: 1,
-      name: "Fone de ouvido JBL",
-      type: "Perdido",
-      location: "Próximo ao DAE",
-      date: "12/11/2024",
-      category: "Eletrônicos",
-      icon: "🎧",
-    },
-    {
-      id: 2,
-      name: "Carteira de couro",
-      type: "Encontrado",
-      location: "Biblioteca Central",
-      date: "10/11/2024",
-      category: "Acessórios",
-      icon: "👛",
-    },
-    {
-      id: 3,
-      name: "Garrafa de água",
-      type: "Perdido",
-      location: "Área de convivência",
-      date: "09/11/2024",
-      category: "Outros",
-      icon: "💧",
-    },
-  ];
+  const [items, setItems] = useState([]);
+  const [filter, setFilter] = useState("todos");
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  useEffect(() => {
+    async function carregarItens() {
+      try {
+        setLoading(true);
+
+        await delay (1000);
+        
+        const response = await api.get("/items/");
+        setItems(response.data);
+        setError("");
+      } catch (error) {
+        console.log(error);
+        setError("Erro ao carregar os itens.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarItens();
+  }, []);
+
+  const filteredItems = items.filter((item) => {
+    const matchesFilter =
+      filter === "todos"
+        ? true
+        : filter === "perdidos"
+          ? item.is_found === false
+          : item.is_found === true;
+
+    const searchText = search.toLowerCase();
+
+    const matchesSearch =
+      item.title?.toLowerCase().includes(searchText) ||
+      item.description?.toLowerCase().includes(searchText) ||
+      item.category?.toLowerCase().includes(searchText) ||
+      item.location?.toLowerCase().includes(searchText);
+
+    return matchesFilter && matchesSearch;
+  });
 
   return (
     <>
@@ -39,27 +62,46 @@ function Dashboard() {
       <main className="container">
         <div className="page-header">
           <div>
-            <h1>Olá, Guilherme!</h1>
+            <h1>Olá, usuário!</h1>
             <p>Veja os itens cadastrados pela comunidade.</p>
           </div>
 
-          <a className="primary-link" href="/novo-item">
+          <Link className="primary-link" to="/novo-item">
             + Novo item
-          </a>
+          </Link>
         </div>
 
         <div className="filters">
-          <button>Todos</button>
-          <button>Perdidos</button>
-          <button>Encontrados</button>
-          <input placeholder="Buscar itens..." />
+          <button onClick={() => setFilter("todos")}>Todos</button>
+          <button onClick={() => setFilter("perdidos")}>Perdidos</button>
+          <button onClick={() => setFilter("encontrados")}>Encontrados</button>
+          <input
+            placeholder="Buscar itens..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
-        <section className="grid">
-          {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
-        </section>
+        {loading && 
+        <div className="loading-container">
+          <div className="spineer"></div>
+          <p>Carregando itens...</p>
+        </div>
+        }
+
+        {error && <p className="error-message">{error}</p>}
+
+        {!loading && !error && (
+          <section className="grid">
+            {filteredItems.length > 0 ? (
+              filteredItems.map((item) => (
+                <ItemCard key={item.id} item={item} />
+              ))
+            ) : (
+              <p>Nenhum item encontrado.</p>
+            )}
+          </section>
+        )}
       </main>
     </>
   );

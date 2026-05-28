@@ -73,6 +73,12 @@ pip install -r requirements.txt
 uvicorn src.main:app --reload
 ```
 
+caso utilize powershell
+
+```Bash
+python -m uvicorn src.main:app --reload
+```
+
 📡 Acessar a API
 Swagger:
 http://127.0.0.1:8000/docs
