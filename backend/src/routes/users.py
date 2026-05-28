@@ -88,9 +88,11 @@ def login(
             detail="Invalid credentials"
         )
 
-    access_token = create_access_token({
-        "user_id": user.id
-    })
+    if not user or not verify_password(password, user.password):
+        raise HTTPException(
+            status_code=401,
+            detail="Invaid credentials"
+        )
 
     return {
         "access_token": access_token,
