@@ -5,8 +5,10 @@ WORKDIR /app
 COPY --chown=root:root --chmod=755 package*.json ./
 
 RUN npm install
-# sonar-ignore-current-line:S6504 - O .dockerignore local já filtra arquivos sensíveis
-COPY --chown=root:root --chmod=755 . .
+
+COPY --chown=root:root --chmod=755 src/ ./src/
+COPY --chown=root:root --chmod=755 public/ ./public/
+COPY --chown=root:root --chmod=755 README.md ./
 
 USER node
 
