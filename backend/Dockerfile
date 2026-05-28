@@ -20,7 +20,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
-# Copia a pasta de código e o arquivo de requerimentos como root (segurança SonarCloud)
+# Copia a pasta de código e o arquivo de requerimentos como root 
 COPY --chown=root:root --chmod=755 src/ ./src/
 COPY --chown=root:root --chmod=755 requirements.txt ./
 
