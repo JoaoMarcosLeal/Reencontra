@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
-  const userEmail = localStorage.getItem("userEmail");
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState("todos");
   const [search, setSearch] = useState("");
@@ -63,7 +62,7 @@ function Dashboard() {
       <main className="container">
         <div className="page-header">
           <div>
-            <h1>Olá, {userEmail || "usuário"}!</h1>
+            <h1>Olá, usuário!</h1>
             <p>Veja os itens cadastrados pela comunidade.</p>
           </div>
 
