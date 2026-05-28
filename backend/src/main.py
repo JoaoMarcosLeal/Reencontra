@@ -1,9 +1,11 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from .database import Base, engine
 from .routes.users import router as users_router
 from .routes.items import router as items_router
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
 
 @app.get("/")
 def root():

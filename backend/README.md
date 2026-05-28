@@ -22,6 +22,7 @@ Centralizar informações de itens perdidos e encontrados, facilitando a comunic
 - Banco de dados: SQLite
 - Autenticação: JWT
 - Versionamento: Git/GitHub
+- Testes: pytest
 
 ---
 
@@ -32,6 +33,7 @@ Centralizar informações de itens perdidos e encontrados, facilitando a comunic
 - Cadastro de itens perdidos/encontrados
 - Listagem de itens
 - Algoritmo de match automático entre itens
+- Testes unitários para users e itens
 
 ---
 
@@ -41,45 +43,49 @@ Centralizar informações de itens perdidos e encontrados, facilitando a comunic
 
 ```bash
 git clone https://github.com/JoaoMarcosLeal/Reencontra.git
+
 cd Reencontra
+```
 
 ### 2. Criar ambiente virtual
+
+```bash
 python -m venv venv
+```
 
 ### 3. Ativar o ambiente virtual
-Windows (PowerShell)
-venv\Scripts\activate
-Windows (CMD)
+
+Windows
+
+```bash
 venv\Scripts\activate.bat
+```
 
 ### 4. Instalar dependências
+
+```Bash
 pip install -r requirements.txt
+```
 
 ### 5. Rodar o servidor
+
+```Bash
 uvicorn src.main:app --reload
+```
 
 📡 Acessar a API
 Swagger:
 http://127.0.0.1:8000/docs
+
 Por meio dela é possível testar todos os endpoints da aplicação.
 
-🧪 Testes
-Para rodar os testes:
-pytest
+### Testes
 
-📂 Estrutura do projeto
-src/
- ├── main.py              # Inicialização da aplicação
- ├── database.py          # Configuração do banco de dados
- ├── models.py            # Modelos ORM
- ├── auth.py              # Autenticação JWT
- ├── routes/
- │    ├── users.py        # Rotas de usuário
- │    ├── items.py        # Rotas de itens
- ├── services/
- │    ├── match_service.py # Algoritmo de correspondência
-tests/
- ├── test_example.py
+Para rodar os testes:
+
+```bash
+python -m pytest
+```
 
 🔄 Fluxo de Uso
 O usuário se registra na plataforma
@@ -96,7 +102,5 @@ Categoria
 Descrição do item
 
 Quando há correspondência, o sistema registra o possível match para futura notificação.
-
-
 
 Este projeto é acadêmico e desenvolvido para fins educacionais.
