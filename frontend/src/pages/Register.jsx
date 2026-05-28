@@ -8,9 +8,11 @@ function Register() {
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     async function handleRegister(e) {
         e.preventDefault();
+        setErrorMessage("");
         
         try {
             await api.post("/users/register", null, {
@@ -23,7 +25,7 @@ function Register() {
             alert("Conta criada com sucesso!");
             navigate("/");
         } catch (error) {
-            alert("Erro ao cadastrar usuário");
+            setErrorMessage("Não foi possível criar a conta. Verifique os dados.");
             console.log(error);
         }
     }
@@ -60,6 +62,8 @@ function Register() {
                         onChange={(e) => setPassword(e.target.value)}
                         required 
                     />
+
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
 
                     <button type="submit">Cadastrar</button>
                 </form>
