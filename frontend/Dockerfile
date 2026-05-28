@@ -8,7 +8,7 @@ RUN npm install
 
 COPY --chown=root:root --chmod=755 . .
 
-#USER node
+USER node
 
 EXPOSE 3000
 
