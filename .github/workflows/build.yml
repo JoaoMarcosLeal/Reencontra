@@ -1,0 +1,101 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - branch-* 
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  backend-build:
+    name: Build and Analyze Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Desabilita shallow clones para melhor análise do Sonar
+
+      - name: Configurar Ambiente Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar Dependências e Ferramentas de Teste
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Executar Testes com Cobertura
+        run: |
+          pytest --cov=src --cov-report=xml:coverage.xml
+
+      # Cache do SonarCloud para otimizar os tempos de execução
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar-backend
+          restore-keys: ${{ runner.os }}-sonar-backend
+
+      - name: Build and analyze (Backend)
+        uses: SonarSource/sonarcloud-github-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: ./backend
+
+  # --- JOB DO FRONTEND (NODE / REACT) ---
+  frontend-build:
+    name: Build and Analyze Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Ambiente Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: ./frontend/package-lock.json
+
+      - name: Instalar Dependências (Clean Install)
+        run: npm ci
+
+      - name: Executar Build do Projeto
+        run: npm run build
+
+      - name: Executar Testes e Gerar Cobertura
+        run: npm test -- --watchAll=false --coverage
+
+      # Cache do SonarCloud para o frontend
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar-frontend
+          restore-keys: ${{ runner.os }}-sonar-frontend
+
+      - name: Build and analyze (Frontend)
+        uses: SonarSource/sonarcloud-github-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: ./frontend
