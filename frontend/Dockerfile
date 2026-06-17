@@ -1,6 +1,6 @@
 FROM node:22-alpine
 
-WORKDIR /usr/app
+WORKDIR /usr/src/frontend
 
 COPY --chown=root:root --chmod=755 package*.json ./
 
