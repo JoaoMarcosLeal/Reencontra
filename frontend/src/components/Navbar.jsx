@@ -40,6 +40,14 @@ function Navbar() {
           Novo Item
         </Link>
 
+        <Link
+          to="/perfil"
+          className={`nav-item ${location.pathname === "/perfil" ? "active-link" : ""}`}
+        >
+          <PlusCircle size={18} />
+          Perfil
+        </Link>
+
         <button
           className="nav-item"
           onClick={handleLogout}

@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CreateItem from "./pages/CreateItem";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -12,9 +13,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />}/>
         <Route path="/cadastro" element={<Register/>}/>
-        
         <Route path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>}/>
         <Route path="/novo-item" element={<ProtectedRoute> <CreateItem/> </ProtectedRoute>}/>
+        <Route path="/perfil" element={<ProtectedRoute> <Profile/> </ProtectedRoute>}/>
       </Routes>
     </BrowserRouter>
   );
