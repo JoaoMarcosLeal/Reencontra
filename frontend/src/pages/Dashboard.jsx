@@ -3,6 +3,12 @@ import ItemCard from "../components/ItemCard";
 import api from "../services/api";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  Search,
+  Plus,
+  PackageSearch,
+  CircleAlert,
+} from "lucide-react";
 
 function Dashboard() {
   const [items, setItems] = useState([]);
@@ -20,14 +26,15 @@ function Dashboard() {
       try {
         setLoading(true);
 
-        await delay (1000);
-        
+        await delay(1000);
+
         const response = await api.get("/items/");
+
         setItems(response.data);
         setError("");
       } catch (error) {
         console.log(error);
-        setError("Erro ao carregar os itens.");
+        setError("Não foi possível carregar os itens.");
       } finally {
         setLoading(false);
       }
@@ -41,16 +48,16 @@ function Dashboard() {
       filter === "todos"
         ? true
         : filter === "perdidos"
-          ? item.is_found === false
-          : item.is_found === true;
+        ? !item.is_found
+        : item.is_found;
 
-    const searchText = search.toLowerCase();
+    const text = search.toLowerCase();
 
     const matchesSearch =
-      item.title?.toLowerCase().includes(searchText) ||
-      item.description?.toLowerCase().includes(searchText) ||
-      item.category?.toLowerCase().includes(searchText) ||
-      item.location?.toLowerCase().includes(searchText);
+      item.title?.toLowerCase().includes(text) ||
+      item.description?.toLowerCase().includes(text) ||
+      item.category?.toLowerCase().includes(text) ||
+      item.location?.toLowerCase().includes(text);
 
     return matchesFilter && matchesSearch;
   });
@@ -59,49 +66,183 @@ function Dashboard() {
     <>
       <Navbar />
 
-      <main className="container">
-        <div className="page-header">
-          <div>
-            <h1>Olá, usuário!</h1>
-            <p>Veja os itens cadastrados pela comunidade.</p>
+      <main className="dashboard-container">
+
+        {/* Header */}
+
+        <section className="dashboard-header">
+
+          <div className="dashboard-title">
+
+            <span>Dashboard</span>
+
+            <h1>
+              Encontre objetos perdidos na UFLA
+            </h1>
+
+            <p>
+              Consulte os itens cadastrados pela comunidade ou registre um novo
+              objeto encontrado.
+            </p>
+
           </div>
 
-          <Link className="primary-link" to="/novo-item">
-            + Novo item
+          <Link to="/novo-item" className="new-item-button">
+            <Plus size={20} />
+            Novo Item
           </Link>
-        </div>
 
-        <div className="filters">
-          <button onClick={() => setFilter("todos")}>Todos</button>
-          <button onClick={() => setFilter("perdidos")}>Perdidos</button>
-          <button onClick={() => setFilter("encontrados")}>Encontrados</button>
-          <input
-            placeholder="Buscar itens..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+        </section>
 
-        {loading && 
-        <div className="loading-container">
-          <div className="spineer"></div>
-          <p>Carregando itens...</p>
-        </div>
-        }
+        {/* Banner */}
 
-        {error && <p className="error-message">{error}</p>}
+        <section className="dashboard-banner">
+
+          <PackageSearch size={30} />
+
+          <div>
+
+            <h3>
+              Ajude alguém a recuperar um objeto perdido
+            </h3>
+
+            <p>
+              Quanto mais informações forem cadastradas, maiores são as chances
+              de encontrar o verdadeiro dono.
+            </p>
+
+          </div>
+
+        </section>
+
+        {/* Pesquisa */}
+
+        <section className="search-area">
+
+          <div className="search-box">
+
+            <Search size={20} />
+
+            <input
+              type="text"
+              placeholder="Buscar por nome, categoria ou localização..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+          </div>
+
+        </section>
+
+        {/* Filtros */}
+
+        <section className="tabs">
+
+          <button
+            className={filter === "todos" ? "active" : ""}
+            onClick={() => setFilter("todos")}
+          >
+            Todos
+          </button>
+
+          <button
+            className={filter === "perdidos" ? "active" : ""}
+            onClick={() => setFilter("perdidos")}
+          >
+            Perdidos
+          </button>
+
+          <button
+            className={filter === "encontrados" ? "active" : ""}
+            onClick={() => setFilter("encontrados")}
+          >
+            Encontrados
+          </button>
+
+        </section>
+
+        {/* Quantidade */}
 
         {!loading && !error && (
-          <section className="grid">
-            {filteredItems.length > 0 ? (
-              filteredItems.map((item) => (
-                <ItemCard key={item.id} item={item} />
-              ))
-            ) : (
-              <p>Nenhum item encontrado.</p>
-            )}
-          </section>
+          <div className="results-info">
+
+            <strong>{filteredItems.length}</strong>{" "}
+            {filteredItems.length === 1
+              ? "item encontrado"
+              : "itens encontrados"}
+
+          </div>
         )}
+
+        {/* Loading */}
+
+        {loading && (
+          <div className="loading-container">
+
+            <div className="spinner"></div>
+
+            <p>Carregando objetos...</p>
+
+          </div>
+        )}
+
+        {/* Erro */}
+
+        {error && (
+          <div className="dashboard-error">
+
+            <CircleAlert size={24} />
+
+            <p>{error}</p>
+
+          </div>
+        )}
+
+        {/* Lista */}
+
+        {!loading && !error && (
+
+          <section className="grid">
+
+            {filteredItems.length > 0 ? (
+
+              filteredItems.map((item) => (
+                <ItemCard
+                  key={item.id}
+                  item={item}
+                />
+              ))
+
+            ) : (
+
+              <div className="empty-state">
+
+                <PackageSearch size={70} />
+
+                <h2>
+                  Nenhum item encontrado
+                </h2>
+
+                <p>
+                  Não encontramos objetos para os filtros selecionados.
+                </p>
+
+                <Link
+                  className="new-item-button"
+                  to="/novo-item"
+                >
+                  <Plus size={18} />
+                  Cadastrar novo item
+                </Link>
+
+              </div>
+
+            )}
+
+          </section>
+
+        )}
+
       </main>
     </>
   );
