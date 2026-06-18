@@ -1,16 +1,23 @@
 FROM node:22-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/frontend
 
-COPY --chown=root:root --chmod=755 package*.json ./
+# Ajusta explicitamente o dono da pasta de trabalho para o usuário node
+RUN chown node:node /usr/src/frontend
 
-RUN npm install
+# Copia os arquivos de configuração com o dono correto
+COPY --chown=node:node --chmod=755 package*.json ./
 
-COPY --chown=root:root --chmod=755 src/ ./src/
-COPY --chown=root:root --chmod=755 public/ ./public/
-COPY --chown=root:root --chmod=755 README.md ./
-
+# Muda para um usuário seguro 
 USER node
+
+RUN npm ci --ignore-scripts \
+    && mkdir -p node_modules/.cache \
+    && chmod 755 node_modules/.cache
+
+# Copia o restante do código fonte
+COPY --chown=node:node --chmod=755 src/ ./src/
+COPY --chown=node:node --chmod=755 public/ ./public/
 
 EXPOSE 3000
 
