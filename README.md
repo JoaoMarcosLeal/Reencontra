@@ -1,28 +1,38 @@
 # Reencontra 🔎
 
-### Sistema Web de Achados e Perdidos Universitário
+## Sistema Web de Achados e Perdidos Universitário
 
-O **Reencontra** é uma plataforma centralizada desenvolvida para a comunidade acadêmica da **Universidade Federal de Lavras (UFLA)**. O objetivo é facilitar a recuperação de objetos perdidos no campus através de um sistema inteligente de cruzamento de dados, conectando de forma eficiente quem encontrou um item ao seu respectivo dono via algoritmo de "match" assíncrono.
+O **Reencontra** é uma plataforma centralizada desenvolvida para a comunidade acadêmica da **Universidade Federal de Lavras (UFLA)**. O objetivo do sistema é facilitar a recuperação de objetos perdidos dentro do campus por meio de um mecanismo inteligente de cruzamento de dados, conectando usuários que perderam itens àqueles que os encontraram através de um algoritmo de *match* assíncrono.
 
 ---
 
 ## 👥 Integrantes e Responsabilidades
 
-- **Guilherme Alexandre Cunha Silva**: (Adicionar Função)
-- **Veronica Rodrigues da Silva França**: (Adicionar Função)
-- **João Marcos Leal De Oliveira Lopes Ferreira**: (Adicionar Função)
+- **Guilherme Alexandre Cunha Silva**  
+- **Veronica Rodrigues da Silva França** 
+- **João Marcos Leal de Oliveira Lopes Ferreira** 
 
 ---
 
-## 🛠️ Tecnologias (Stack)
+## 🛠️ Tecnologias Utilizadas
 
-O projeto é desenvolvido utilizando as seguintes tecnologias:
+O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-- **Frontend:** React.js
-- **Backend:** Python + FastAPI
-- **Banco de dados:** SQLite
-- **Autenticação:** JWT
-- **Versionamento:** Git/GitHub
+### Frontend
+- React.js
+
+### Backend
+- Python
+- FastAPI
+
+### Banco de Dados
+- SQLite
+
+### Autenticação
+- JWT (JSON Web Token)
+
+### Versionamento
+- Git e GitHub
 
 ---
 
@@ -30,9 +40,9 @@ O projeto é desenvolvido utilizando as seguintes tecnologias:
 
 - Cadastro de usuários
 - Login com autenticação JWT
-- Cadastro de itens perdidos/encontrados
+- Cadastro de itens perdidos e encontrados
 - Listagem de itens
-- Algoritmo de match automático entre itens
+- Algoritmo de *match* automático entre itens
 
 ---
 
@@ -42,63 +52,95 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento em sua máqu
 
 ### 1. Pré-requisitos
 
-- Node.js (v18 ou superior)
-- Python (3.8 ou superior)
-- Git
+Certifique-se de possuir os seguintes softwares instalados:
 
-### 2. Clonando o Repositório
+- Node.js (v18 ou superior)
+- Python (v3.8 ou superior)
+- Git
+- Docker *(opcional)*
+
+---
+
+## 2. Clonando o Repositório
 
 ```bash
 git clone https://github.com/JoaoMarcosLeal/Reencontra.git
 cd Reencontra
 ```
 
-### 3. Backend - Configuração e Execução
+---
 
-#### 3.1 Criar ambiente virtual
+# OPÇÃO 1 — Executando com Docker
+
+## Subir os containers
+
+```bash
+docker compose up -d --build
+```
+
+## Parar os containers
+
+```bash
+docker compose stop
+```
+
+---
+
+# OPÇÃO 2 — Execução Manual
+
+## 3. Backend — Configuração e Execução
+
+### 3.1 Criar ambiente virtual
 
 ```bash
 python -m venv venv
 ```
 
-#### 3.2 Ativar o ambiente virtual
+### 3.2 Ativar o ambiente virtual
 
-**Windows (PowerShell):**
+#### Windows (PowerShell)
+
 ```bash
 venv\Scripts\activate
 ```
 
-**Windows (CMD):**
+#### Windows (CMD)
+
 ```bash
 venv\Scripts\activate.bat
 ```
 
-**Linux/Mac:**
+#### Linux/macOS
+
 ```bash
 source venv/bin/activate
 ```
 
-#### 3.3 Instalar dependências
+### 3.3 Instalar dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
-#### 3.4 Rodar o servidor backend
+### 3.4 Rodar o servidor backend
 
 ```bash
 uvicorn src.main:app --reload
 ```
 
-#### 3.5 Acessar a API (Swagger)
+### 3.5 Acessar a documentação da API
 
-Após rodar o servidor, acesse a documentação interativa da API em:
-```
+Após iniciar o servidor, acesse:
+
+```txt
 http://127.0.0.1:8000/docs
 ```
-Por meio dela é possível testar todos os endpoints da aplicação.
 
-### 4. Frontend - Configuração e Execução
+Através dessa interface é possível visualizar e testar todos os endpoints da aplicação.
+
+---
+
+## 4. Frontend — Configuração e Execução
 
 ```bash
 cd frontend
@@ -110,7 +152,7 @@ npm start
 
 ## 🧪 Testes
 
-Para rodar os testes do backend:
+Para executar os testes do backend:
 
 ```bash
 pytest
@@ -120,7 +162,7 @@ pytest
 
 ## 📂 Estrutura do Projeto
 
-```
+```txt
 Reencontra/
 ├── src/                          # Backend
 │   ├── main.py                   # Inicialização da aplicação
@@ -128,7 +170,7 @@ Reencontra/
 │   ├── models.py                 # Modelos ORM
 │   ├── auth.py                   # Autenticação JWT
 │   ├── routes/
-│   │   ├── users.py              # Rotas de usuário
+│   │   ├── users.py              # Rotas de usuários
 │   │   └── items.py              # Rotas de itens
 │   └── services/
 │       └── match_service.py      # Algoritmo de correspondência
@@ -145,7 +187,7 @@ Reencontra/
 1. O usuário se registra na plataforma
 2. Realiza login e recebe um token JWT
 3. Cadastra um item como **perdido** ou **encontrado**
-4. O sistema executa automaticamente o algoritmo de match
+4. O sistema executa automaticamente o algoritmo de *match*
 5. Possíveis correspondências são identificadas
 
 ---
@@ -157,10 +199,10 @@ O sistema compara automaticamente itens perdidos com itens encontrados com base 
 - **Categoria** do item
 - **Descrição** do item
 
-Quando há correspondência, o sistema registra o possível match para futura notificação.
+Quando há correspondência, o sistema registra um possível *match* para futura notificação.
 
 ---
 
 ## 📌 Observação
 
-Este projeto é acadêmico e desenvolvido para fins educacionais.
+Este projeto possui fins acadêmicos e foi desenvolvido para objetivos educacionais.
