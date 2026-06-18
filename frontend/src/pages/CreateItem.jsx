@@ -11,6 +11,7 @@ import {
   CircleHelp,
   ArrowLeft,
   Plus,
+  PhoneCall,
 } from "lucide-react";
 
 function CreateItem() {
@@ -18,6 +19,7 @@ function CreateItem() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [contact, setContact] = useState("");
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [isFound, setIsFound] = useState(false);
@@ -206,6 +208,22 @@ function CreateItem() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Descreva cor, marca, tamanho e qualquer característica importante."
+                  required
+                />
+
+              </div>
+
+              <div className="form-group">
+
+                <label>
+                  <PhoneCall size={18} />
+                  Contato
+                </label>
+
+                <input
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  placeholder="Instagram - @XXXXXX // Whtasapp - (99) 9 9999-9999 // ..."
                   required
                 />
 
