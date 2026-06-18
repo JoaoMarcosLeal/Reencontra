@@ -6,7 +6,7 @@ WORKDIR /usr/src/frontend
 RUN chown node:node /usr/src/frontend
 
 # Copia os arquivos de configuração com o dono correto
-COPY --chown=node:node package*.json ./
+COPY --chown=node:node --chmod=755 package*.json ./
 
 # Muda para um usuário seguro 
 USER node
@@ -16,8 +16,8 @@ RUN npm ci --ignore-scripts \
     && chmod 755 node_modules/.cache
 
 # Copia o restante do código fonte
-COPY --chown=node:node src/ ./src/
-COPY --chown=node:node public/ ./public/
+COPY --chown=node:node --chmod=755 src/ ./src/
+COPY --chown=node:node --chmod=755 public/ ./public/
 
 EXPOSE 3000
 
