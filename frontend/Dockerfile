@@ -1,14 +1,15 @@
 FROM node:22-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/frontend
 
 COPY --chown=root:root --chmod=755 package*.json ./
 
 RUN npm install
 
+RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
+
 COPY --chown=root:root --chmod=755 src/ ./src/
 COPY --chown=root:root --chmod=755 public/ ./public/
-COPY --chown=root:root --chmod=755 README.md ./
 
 USER node
 
