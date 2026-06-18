@@ -1,1 +1,28 @@
-node_modules
+# Ignore dependencies and build output
+node_modulesnode_modules/
+dist/
+out/
+.tmp/
+.cache/
+
+# Ignore environment and config files (sensitive data)
+*.env*
+*.log
+
+# Ignore local development files
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Ignore Docker-related files (to avoid copying unnecessary configs)
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.override.yml
+
+LICENSE
+README.md
