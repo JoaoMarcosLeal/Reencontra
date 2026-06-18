@@ -34,15 +34,12 @@ function CreateItem() {
     setErrorMessage("");
 
     try {
-      await api.post("/items/", null, {
-        params: {
-          title,
-          description,
-          category,
-          location,
-          is_found: isFound,
-          owner_id: 1,
-        },
+      await api.post("/items/", {
+        title,
+        description,
+        category,
+        location,
+        is_found: isFound,
       });
 
       setSuccessMessage("Item cadastrado com sucesso!");
@@ -52,6 +49,12 @@ function CreateItem() {
       }, 1200);
     } catch (error) {
       console.error(error);
+
+      console.log(
+        "Resposta do backend:",
+        error.response?.data
+      );
+
       setErrorMessage("Erro ao cadastrar item.");
     } finally {
       setLoading(false);
@@ -92,7 +95,7 @@ function CreateItem() {
                 <div className="form-group">
 
                   <label>
-                    <Package size={18}/>
+                    <Package size={18} />
                     Título
                   </label>
 
@@ -100,7 +103,7 @@ function CreateItem() {
                     type="text"
                     placeholder="Ex.: Notebook Dell"
                     value={title}
-                    onChange={(e)=>setTitle(e.target.value)}
+                    onChange={(e) => setTitle(e.target.value)}
                     required
                   />
 
@@ -109,13 +112,13 @@ function CreateItem() {
                 <div className="form-group">
 
                   <label>
-                    <Tag size={18}/>
+                    <Tag size={18} />
                     Tipo
                   </label>
 
                   <select
                     value={isFound}
-                    onChange={(e)=>setIsFound(e.target.value==="true")}
+                    onChange={(e) => setIsFound(e.target.value === "true")}
                   >
                     <option value="false">
                       Perdido
@@ -136,13 +139,13 @@ function CreateItem() {
                 <div className="form-group">
 
                   <label>
-                    <Tag size={18}/>
+                    <Tag size={18} />
                     Categoria
                   </label>
 
                   <select
                     value={category}
-                    onChange={(e)=>setCategory(e.target.value)}
+                    onChange={(e) => setCategory(e.target.value)}
                     required
                   >
                     <option value="">
@@ -176,13 +179,13 @@ function CreateItem() {
                 <div className="form-group">
 
                   <label>
-                    <MapPin size={18}/>
+                    <MapPin size={18} />
                     Local
                   </label>
 
                   <input
                     value={location}
-                    onChange={(e)=>setLocation(e.target.value)}
+                    onChange={(e) => setLocation(e.target.value)}
                     placeholder="Biblioteca Central"
                     required
                   />
@@ -194,14 +197,14 @@ function CreateItem() {
               <div className="form-group">
 
                 <label>
-                  <FileText size={18}/>
+                  <FileText size={18} />
                   Descrição
                 </label>
 
                 <textarea
                   rows="6"
                   value={description}
-                  onChange={(e)=>setDescription(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                   placeholder="Descreva cor, marca, tamanho e qualquer característica importante."
                   required
                 />
@@ -222,13 +225,13 @@ function CreateItem() {
 
               <div className="buttons">
 
-                <button type="button" className="cancel-button" onClick={()=>navigate("/dashboard")}>
-                  <ArrowLeft size={18}/>
+                <button type="button" className="cancel-button" onClick={() => navigate("/dashboard")}>
+                  <ArrowLeft size={18} />
                   Voltar
                 </button>
 
                 <button type="submit" className="save-button" disabled={loading}>
-                  <Plus size={18}/>
+                  <Plus size={18} />
                   {loading ? "Salvando..." : "Cadastrar Item"}
                 </button>
               </div>
@@ -236,7 +239,7 @@ function CreateItem() {
           </section>
 
           <aside className="tips-card">
-            <CircleHelp size={34}/>
+            <CircleHelp size={34} />
             <h3>Dicas</h3>
 
             <ul>
