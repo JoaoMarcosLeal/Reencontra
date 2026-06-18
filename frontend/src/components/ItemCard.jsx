@@ -10,66 +10,97 @@ import {
   Circle,
 } from "lucide-react";
 
+import { Link } from "react-router-dom";
+
 function ItemCard({ item }) {
-  const isFound = item.is_found === true;
+  const isFound = item.is_found;
 
   const categoryIcons = {
-    Eletrônicos: <Laptop size={30} />,
-    Documentos: <FileText size={30} />,
-    Chaves: <KeyRound size={30} />,
-    Acessórios: <Briefcase size={30} />,
-    Outros: <Package size={30} />,
+    Eletrônicos: <Laptop size={28} />,
+    Documentos: <FileText size={28} />,
+    Chaves: <KeyRound size={28} />,
+    Acessórios: <Briefcase size={28} />,
+    Outros: <Package size={28} />,
   };
 
   return (
-    <article className="item-card">
+    <Link
+      to={`/item/${item.id}`}
+      className="item-card-link"
+    >
+      <article className="item-card">
 
-      <div className="card-header">
+        <div className="card-header">
 
-        <div className="item-icon">
-          {categoryIcons[item.category] || <Package size={30} />}
+          <div className="item-icon">
+
+            {categoryIcons[item.category] || <Package size={28} />}
+
+          </div>
+
+          <span
+            className={`badge ${isFound ? "found" : "lost"}`}
+          >
+            <Circle
+              size={8}
+              fill="currentColor"
+            />
+
+            {isFound
+              ? "Encontrado"
+              : "Perdido"}
+
+          </span>
+
         </div>
 
-        <span className={isFound ? "badge found" : "badge lost"}>
-          <Circle size={10} fill="currentColor" />
-          {isFound ? "Encontrado" : "Perdido"}
-        </span>
+        <div className="card-body">
 
-      </div>
+          <h3>{item.title}</h3>
 
-      <div className="card-body">
+          <p className="item-description">
+            {item.description}
+          </p>
 
-        <h3>{item.title}</h3>
-
-        <p className="item-description">
-          {item.description}
-        </p>
-
-      </div>
-
-      <div className="item-info">
-
-        <div className="info-chip">
-          <MapPin size={15}/>
-          {item.location}
         </div>
 
-        <div className="info-chip">
-          <Tag size={15}/>
-          {item.category}
+        <div className="item-info">
+
+          <div className="info-chip">
+
+            <MapPin size={15} />
+
+            {item.location}
+
+          </div>
+
+          <div className="info-chip">
+
+            <Tag size={15} />
+
+            {item.category}
+
+          </div>
+
         </div>
 
-      </div>
+        <div className="card-footer">
 
-      <button className="details-button">
+          <span className="details-text">
 
-        Ver detalhes
+            Ver detalhes
 
-        <ArrowRight size={18}/>
+          </span>
 
-      </button>
+          <ArrowRight
+            size={18}
+            className="details-arrow"
+          />
 
-    </article>
+        </div>
+
+      </article>
+    </Link>
   );
 }
 
