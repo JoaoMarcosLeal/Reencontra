@@ -27,6 +27,7 @@ class ItemCreate(BaseModel):
     category: str
     location: str
     is_found: bool
+    contact: str
 
 
 class ItemUpdate(BaseModel):
@@ -35,6 +36,7 @@ class ItemUpdate(BaseModel):
     category: str
     location: str
     is_found: bool
+    contact: str
 
 
 class ItemResponse(BaseModel):
@@ -44,6 +46,7 @@ class ItemResponse(BaseModel):
     category: str
     location: str
     is_found: bool
+    contact: str
     created_at: datetime
     owner_id: int
     class Config:
