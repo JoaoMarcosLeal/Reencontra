@@ -40,6 +40,7 @@ def create_item(
         category=item_data.category,
         location=item_data.location,
         is_found=item_data.is_found,
+        contact=item_data.contact,
         owner_id=current_user.id
     )
 
@@ -83,7 +84,21 @@ def get_item(
             detail="Item not found"
         )
 
-    return item
+    return {
+        "id": item.id,
+        "title": item.title,
+        "description": item.description,
+        "category": item.category,
+        "location": item.location,
+        "is_found": item.is_found,
+        "contact": item.contact,
+        "created_at": item.created_at,
+        "owner": {
+            "id": item.owner.id,
+            "name": item.owner.full_name,
+            "email": item.owner.email,
+        }
+    }
 
 
 @router.put("/{item_id}")
@@ -114,6 +129,7 @@ def update_item(
     item.description = item_data.description
     item.category = item_data.category
     item.location = item_data.location
+    item.contact = item_data.contact
     item.is_found = item_data.is_found
 
     db.commit()

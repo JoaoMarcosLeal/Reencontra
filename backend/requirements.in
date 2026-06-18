@@ -10,5 +10,8 @@ bcrypt==4.0.1
 passlib==1.7.4
 httpx==0.28.1
 
+# Driver MySQL
+pymysql==1.1.1
+
 # Dependências de desenvolvimento / testes
 pytest==9.1.0

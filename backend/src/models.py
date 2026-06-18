@@ -23,5 +23,6 @@ class Item(Base):
     location = Column(String, nullable=False)
     is_found = Column(Boolean, default=False)
     created_at = Column( DateTime, default=datetime.utcnow)
+    contact = Column(String, nullable=False)
     owner_id = Column(Integer,  ForeignKey("users.id"))
     owner = relationship("User",back_populates="items")

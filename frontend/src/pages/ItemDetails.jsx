@@ -11,6 +11,8 @@ import {
   CheckCircle,
   AlertCircle,
   User,
+  PhoneCall,
+  Calendar,
 } from "lucide-react";
 
 function ItemDetails() {
@@ -26,22 +28,20 @@ function ItemDetails() {
       try {
         setLoading(true);
 
-        // Quando existir GET /items/{id},
-        // basta substituir esta parte.
-        const response = await api.get("/items/");
+        const response = await api.get(`/items/${id}`);
 
-        const itemEncontrado = response.data.find(
-          (item) => item.id === Number(id)
-        );
+        setItem(response.data);
+        console.log(response.data);
 
-        if (!itemEncontrado) {
-          setError("Item não encontrado.");
-        } else {
-          setItem(itemEncontrado);
-        }
+        setError("");
       } catch (error) {
         console.log(error);
-        setError("Erro ao carregar o item.");
+
+        if (error.response?.status === 404) {
+          setError("Item não encontrado.");
+        } else {
+          setError("Erro ao carregar o item.");
+        }
       } finally {
         setLoading(false);
       }
@@ -170,21 +170,35 @@ function ItemDetails() {
 
             </div>
 
-            <div className="detail-box">
+          </div>
 
-              <User size={22} />
+          <section className="contact-card">
 
-              <div>
-
-                <strong>Responsável</strong>
-
-                <p>Usuário #{item.owner_id}</p>
-
-              </div>
-
+            <div className="contact-header">
+              <PhoneCall size={22} />
+              <h2>Contato</h2>
             </div>
 
-          </div>
+            <p className="contact-owner">
+              <strong>{item.owner.name}</strong>
+            </p>
+
+            <p className="contact-info">
+              {item.contact}
+            </p>
+
+          </section>
+
+          <section className="date-card">
+
+            <Calendar size={18} />
+
+            <span>
+              Cadastrado em{" "}
+              {new Date(item.created_at).toLocaleDateString("pt-BR")}
+            </span>
+
+          </section>
 
           <section className="description-card">
 
@@ -197,21 +211,11 @@ function ItemDetails() {
           <div className="details-actions">
 
             <button
-              className="secondary-button"
-              onClick={() => navigate("/dashboard")}
-            >
-              Voltar
-            </button>
-
-            <button
               className="primary-button"
-              onClick={() =>
-                alert(
-                  "Funcionalidade disponível em uma próxima versão."
-                )
-              }
+              onClick={() => navigate(-1)}
             >
-              Entrar em contato
+              <ArrowLeft size={18} />
+              Voltar
             </button>
 
           </div>

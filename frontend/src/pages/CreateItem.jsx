@@ -42,6 +42,7 @@ function CreateItem() {
         category,
         location,
         is_found: isFound,
+        contact,
       });
 
       setSuccessMessage("Item cadastrado com sucesso!");
