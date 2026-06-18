@@ -5,7 +5,7 @@ import api from "../services/api";
 function Register() {
     const navigate = useNavigate();
 
-    const [nome, setNome] = useState("");
+    const [full_name, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -13,13 +13,12 @@ function Register() {
     async function handleRegister(e) {
         e.preventDefault();
         setErrorMessage("");
-        
+
         try {
-            await api.post("/users/register", null, {
-                params: {
-                    email,
-                    password,
-                },
+            await api.post("/users/register", {
+                full_name,
+                email,
+                password,
             });
 
             alert("Conta criada com sucesso!");
@@ -42,10 +41,10 @@ function Register() {
 
                 <form onSubmit={handleRegister}>
                     <label>Nome completo</label>
-                    <input type="text" 
-                    placeholder="Seu nome" 
-                    onChange={(e) => setNome(e.target.value)}
-                    required />
+                    <input type="text"
+                        placeholder="Seu nome"
+                        onChange={(e) => setNome(e.target.value)}
+                        required />
 
                     <label>E-mail</label>
                     <input
@@ -56,11 +55,11 @@ function Register() {
                     />
 
                     <label>Senha</label>
-                    <input 
-                        type="password" 
-                        placeholder="Sua senha" 
+                    <input
+                        type="password"
+                        placeholder="Sua senha"
                         onChange={(e) => setPassword(e.target.value)}
-                        required 
+                        required
                     />
 
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
