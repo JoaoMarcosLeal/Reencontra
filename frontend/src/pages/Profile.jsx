@@ -12,6 +12,7 @@ import {
     Edit,
     Trash2,
     MapPin,
+    Check,
     Tag,
 } from "lucide-react";
 
@@ -29,6 +30,12 @@ function Profile() {
     );
 
     const avatar = nome.charAt(0).toUpperCase();
+
+    const [editingId, setEditingId] = useState(null);
+
+    const [editedTitle, setEditedTitle] = useState("");
+
+    const [editedDescription, setEditedDescription] = useState("");
 
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -70,6 +77,68 @@ function Profile() {
         localStorage.removeItem("userId");
 
         navigate("/");
+    }
+
+    async function handleDelete(itemId) {
+        const confirmDelete = window.confirm(
+            "Tem certeza que deseja excluir este item?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await api.delete(`/items/${itemId}`);
+
+            setItems(
+                items.filter(
+                    (item) => item.id !== itemId
+                )
+            );
+        } catch (error) {
+            console.log(error);
+
+            alert(
+                "Erro ao excluir item."
+            );
+        }
+    }
+
+    function handleEdit(item) {
+        setEditingId(item.id);
+
+        setEditedTitle(item.title);
+
+        setEditedDescription(item.description);
+    }
+
+    async function handleSave(item) {
+        try {
+            const response = await api.put(
+                `/items/${item.id}`,
+                {
+                    title: editedTitle,
+                    description: editedDescription,
+                    category: item.category,
+                    location: item.location,
+                    is_found: item.is_found,
+                }
+            );
+
+            setItems(
+                items.map((i) =>
+                    i.id === item.id
+                        ? response.data
+                        : i
+                )
+            );
+
+            setEditingId(null);
+
+        } catch (error) {
+            console.log(error);
+
+            alert("Erro ao atualizar item.");
+        }
     }
 
     return (
@@ -242,17 +311,31 @@ function Profile() {
 
                                     <div className="item-content">
 
-                                        <h3>
+                                        {editingId === item.id ? (
+                                            <>
+                                                <input
+                                                    value={editedTitle}
+                                                    onChange={(e) =>
+                                                        setEditedTitle(e.target.value)
+                                                    }
+                                                />
 
-                                            {item.title}
+                                                <textarea
+                                                    value={editedDescription}
+                                                    onChange={(e) =>
+                                                        setEditedDescription(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <h3>{item.title}</h3>
 
-                                        </h3>
-
-                                        <p>
-
-                                            {item.description}
-
-                                        </p>
+                                                <p>{item.description}</p>
+                                            </>
+                                        )}
 
                                         <div className="item-tags">
 
@@ -292,13 +375,23 @@ function Profile() {
 
                                         </span>
 
-                                        <button>
+                                        <button
+                                            onClick={() =>
+                                                editingId === item.id
+                                                    ? handleSave(item)
+                                                    : handleEdit(item)
+                                            }
+                                        >
 
-                                            <Edit size={16} />
+                                            {editingId === item.id
+                                                ? <Check size={16} />
+                                                : <Edit size={16} />
+                                            }
 
                                         </button>
 
-                                        <button className="delete-btn">
+                                        <button className="delete-btn"
+                                            onClick={() => handleDelete(item.id)}>
 
                                             <Trash2 size={16} />
 
