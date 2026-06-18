@@ -87,14 +87,17 @@ def login(
             status_code=401,
             detail="Invalid credentials"
         )
-
-    if not user or not verify_password(password, user.password):
-        raise HTTPException(
-            status_code=401,
-            detail="Invaid credentials"
-        )
+    
+    access_token = create_access_token(
+    data={"sub": user.email}
+)
 
     return {
-        "access_token": access_token,
-        "token_type": "bearer"
+    "access_token": access_token,
+    "token_type": "bearer",
+    "user": {
+        "id": user.id,
+        "name": user.full_name,
+        "email": user.email
     }
+}

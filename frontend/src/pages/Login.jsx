@@ -14,14 +14,43 @@ function Login() {
         setErrorMessage("");
 
         try {
-            const response = await api.post("/users/login", null, {
-                params: {
-                    email,
-                    password,
-                },
-            });
+            const formData = new URLSearchParams();
 
-            localStorage.setItem("token", response.data.token);
+            formData.append("username", email);
+            formData.append("password", password);
+
+            const response = await api.post(
+                "/users/login",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                }
+            );
+
+            console.log(response.data);
+
+            localStorage.setItem(
+                "token",
+                response.data.access_token
+            );
+
+            localStorage.setItem(
+                "userId",
+                response.data.user.id
+            );
+
+            localStorage.setItem(
+                "userName",
+                response.data.user.name
+            );
+
+            localStorage.setItem(
+                "userEmail",
+                response.data.user.email
+            );
+            
             navigate("/dashboard");
         } catch (error) {
             setErrorMessage("E-mail ou Senha inválidos.");
@@ -49,11 +78,11 @@ function Login() {
                     />
 
                     <label>Senha</label>
-                    <input 
-                        type="password" 
-                        placeholder="Sua senha" 
+                    <input
+                        type="password"
+                        placeholder="Sua senha"
                         onChange={(e) => setPassword(e.target.value)}
-                        required 
+                        required
                     />
 
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
