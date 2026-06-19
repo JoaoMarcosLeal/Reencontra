@@ -201,6 +201,7 @@ O sistema compara automaticamente itens perdidos com itens encontrados com base 
 
 Quando há correspondência, o sistema registra um possível *match* para futura notificação.
 
+[![Build](https://github.com/JoaoMarcosLeal/Reencontra/actions/workflows/build.yml/badge.svg)](https://github.com/JoaoMarcosLeal/Reencontra/actions/workflows/build.yml)
 ---
 
 ## 📌 Observação
